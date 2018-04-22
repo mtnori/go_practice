@@ -4,15 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 )
-
-type Dept struct {
-	DNo        string
-	DName      string
-	Budget     float64
-	LastUpdate mysql.NullTime
-}
 
 func main() {
 	// db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/demo")
@@ -37,18 +30,13 @@ func main() {
 	}
 	defer rows.Close()
 
-	// 1行ずつ取得
-	for rows.Next() {
-		var dept Dept
-		err := rows.Scan(&(dept.DNo), &(dept.DName), &(dept.Budget), &(dept.LastUpdate))
-		if err != nil {
-			panic(err.Error())
-		}
-		fmt.Println(dept)
-	}
-
-	// 上のイテレーションでエラーがあれば表示
-	if err := rows.Err(); err != nil {
+	// Get columns
+	cols, err := rows.Columns()
+	if err != nil {
 		panic(err.Error())
+	}
+	// Show column names
+	for _, name := range cols {
+		fmt.Println(name)
 	}
 }
