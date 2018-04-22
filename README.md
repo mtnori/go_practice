@@ -4,4 +4,6 @@ Golang practice
 
 ## Description
 
-Go言語の練習。A Tour of Goの演習。
+A Tour of Go
+
+Database connection sandbox
