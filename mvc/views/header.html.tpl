@@ -1,10 +1,10 @@
 {{ define "header" }}
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="ja">
   <head>
-    <title>Golang Mysql CRUD Example</title>
+    <title>Golang MySQL CRUD Example</title>
     <meta charset="UTF-8" />
   </head>
   <body>
-    <h1>Golang Mysql CRUD Example</h1>
+    <h1>Golang MySQL CRUD Example</h1>
 {{ end }}

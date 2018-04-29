@@ -4,10 +4,10 @@ import (
 	"html/template"
 	"net/http"
 
-	"../repositories"
+	"github.com/mtnori/go_practice/mvc/repositories"
 )
 
-var tmpl = template.Must(template.ParseGlob("views/*"))
+var tmpl = template.Must(template.ParseGlob("views/*.html.tpl"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	users := repositories.FindAll()

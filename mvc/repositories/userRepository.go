@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"../models"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/mtnori/go_practice/mvc/models"
 )
 
 // DBの接続設定
