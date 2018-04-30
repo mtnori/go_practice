@@ -1,16 +1,12 @@
-package controllers
+package main
 
 import (
-	"html/template"
 	"net/http"
 	"strconv"
 
-	"github.com/mtnori/go_practice/mvc/globals"
 	"github.com/mtnori/go_practice/mvc/models"
 	"github.com/mtnori/go_practice/mvc/repositories"
 )
-
-var tmpl = template.Must(template.ParseGlob("views/*.html.tpl"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	users := repositories.FindAll()
@@ -31,7 +27,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 func New(w http.ResponseWriter, r *http.Request) {
 	// ログイン中かチェックする
-	sess, _ := globals.Store.Get(r, "cookie-name")
+	sess, _ := store.Get(r, "cookie-name")
 	if auth, ok := sess.Values["authenticated"].(bool); !ok || !auth {
 		http.Error(w, "ページを表示する権限がありません。ログインしてからアクセスしてください", http.StatusUnauthorized)
 		return
@@ -79,7 +75,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 // Login ログイン処理
 func Login(w http.ResponseWriter, r *http.Request) {
-	sess, _ := globals.Store.Get(r, "cookie-name")
+	sess, _ := store.Get(r, "cookie-name")
 	sess.Values["authenticated"] = true
 	sess.Save(r, w)
 	tmpl.ExecuteTemplate(w, "login", nil)
@@ -87,7 +83,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Logout ログアウト処理
 func Logout(w http.ResponseWriter, r *http.Request) {
-	sess, _ := globals.Store.Get(r, "cookie-name")
+	sess, _ := store.Get(r, "cookie-name")
 	sess.Values["authenticated"] = false
 	sess.Save(r, w)
 	tmpl.ExecuteTemplate(w, "logout", nil)
