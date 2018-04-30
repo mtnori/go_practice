@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/mtnori/go_practice/mvc/globals"
 	"github.com/mtnori/go_practice/mvc/models"
 	"github.com/mtnori/go_practice/mvc/repositories"
 )
@@ -29,6 +30,12 @@ func Show(w http.ResponseWriter, r *http.Request) {
 }
 
 func New(w http.ResponseWriter, r *http.Request) {
+	// ログイン中かチェックする
+	sess, _ := globals.Store.Get(r, "cookie-name")
+	if auth, ok := sess.Values["authenticated"].(bool); !ok || !auth {
+		http.Error(w, "ページを表示する権限がありません。ログインしてからアクセスしてください", http.StatusUnauthorized)
+		return
+	}
 	tmpl.ExecuteTemplate(w, "new", nil)
 }
 
@@ -68,4 +75,20 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	// 削除処理
 	repositories.Delete(id)
 	http.Redirect(w, r, "/", 301)
+}
+
+// Login ログイン処理
+func Login(w http.ResponseWriter, r *http.Request) {
+	sess, _ := globals.Store.Get(r, "cookie-name")
+	sess.Values["authenticated"] = true
+	sess.Save(r, w)
+	tmpl.ExecuteTemplate(w, "login", nil)
+}
+
+// Logout ログアウト処理
+func Logout(w http.ResponseWriter, r *http.Request) {
+	sess, _ := globals.Store.Get(r, "cookie-name")
+	sess.Values["authenticated"] = false
+	sess.Save(r, w)
+	tmpl.ExecuteTemplate(w, "logout", nil)
 }
