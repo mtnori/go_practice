@@ -1,14 +1,14 @@
 {{ define "index" }}
   {{ template "header" }}
     {{ template "menu"  }}
-    <h2>ユーザー一覧</h2>
+    <h2>一覧</h2>
     <table border="1">
       <thead>
         <tr>
-          <td>ID</td>
-          <td>Name</td>
-          <td>City</td>
-          <td colspan="3">操作</td>
+          <th>ID</th>
+          <th>名前</th>
+          <th>出身地</th>
+          <th colspan="3">操作</th>
         </tr>
       </thead>
       <tbody>
